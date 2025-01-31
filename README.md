@@ -56,4 +56,6 @@ Perso je suis plus habitué à utiliser Streamlit, en v2v jamais utilisé gradio
 
 [Doc AWS](https://docs.aws.amazon.com/?nc2=h_ql_doc_do)
 
+## Pour les API :
 
+https://docs.google.com/spreadsheets/d/12UVGOY26yGIGH-EBGnQpkl2ZT1O8-0sD4JGTSVQ4pzY/edit?gid=0#gid=0
