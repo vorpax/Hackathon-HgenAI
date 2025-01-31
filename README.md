@@ -1,5 +1,8 @@
 
 
+Le lore : cheatsheet github [Github Cheatsheet](https://education.github.com/git-cheat-sheet-education.pdf)
+
+
 ## Librairies potentielles :
 
 ### Pour se battre avec AWS : 
@@ -12,6 +15,7 @@ Et Amazon Q sur Vscode (flemme de copier le lien)
 
 [aws-samples](https://github.com/aws-samples)
 [sagemaker, le truc vener, des exemples fournis par AWS](https://github.com/aws/amazon-sagemaker-examples)
+[Bedrock Samples](https://github.com/aws-samples/amazon-bedrock-samples)
 [Cloud Deployment Kit : exemples si on voulait faire de l'infrastructure as code](https://github.com/aws/aws-cdk) (Alex: J'ai su faire mais c'est vraiment pas la priorité)
 
 [sdk pandas, exemples pr quand on voudra utiliser une DB](https://github.com/aws/aws-sdk-pandas)
