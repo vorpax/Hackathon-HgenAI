@@ -1,5 +1,12 @@
 
 
+
+
+
+
+
+
+
 Le lore : cheatsheet github [Github Cheatsheet](https://education.github.com/git-cheat-sheet-education.pdf)
 
 
@@ -26,7 +33,12 @@ Et Amazon Q sur Vscode (flemme de copier le lien)
 [streamlit](https://github.com/streamlit/streamlit)
 [gradio](https://github.com/gradio-app/gradio)
 
+
+
 Perso je suis plus habitué à utiliser Streamlit, en v2v jamais utilisé gradio.
+
+#### C'est la carte tah Dora l'exploratrice :
+[Librairie pour cartes, voir doc streamlit](https://github.com/visgl/deck.gl)
 
 
 ### Web crawling / accès à l'actualité (feature rigolote):
