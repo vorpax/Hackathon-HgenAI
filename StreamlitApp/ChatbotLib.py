@@ -55,4 +55,7 @@ def chat_with_model(message_history, new_text=None):
     
     message_history.append(response_message)
     
-    return
+    return message_history
+
+message = convert_chat_messages_to_converse_api(chat_with_model([],"Salut bg"))
+print(message)
