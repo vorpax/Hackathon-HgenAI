@@ -8,7 +8,7 @@ import time
 # Client AWS Bedrock
 bedrock = boto3.client("bedrock-runtime", region_name="us-west-2")
 
-print(chatbot_lib.chat_with_model("saucisse", ""))
+#print(chatbot_lib.chat_with_model("saucisse", ""))
 
 def generate_content(prompt):
     # Appel au modèle AWS Bedrock pour générer le contenu
