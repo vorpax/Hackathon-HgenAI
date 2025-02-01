@@ -44,4 +44,3 @@ with gr.Blocks(theme=gr.themes.Soft()) as iface:
     )
 
 iface.launch(share=True)
-# print(generate_content("Quel est le modèle de chatbot utilisé ?"))
