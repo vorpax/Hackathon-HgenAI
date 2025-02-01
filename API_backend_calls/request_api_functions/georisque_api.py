@@ -115,3 +115,10 @@ if __name__ == "__main__":
 
     print("\n🛑 Exemple : Recherche des risques à Lyon (4.8357, 45.7640)")
     print(get_risques(latlon="4.8357,45.7640"))
+
+
+# Mettre des seuils, dans la DB, les plus grosses, qui produit le plus, (sinon moyens moindres)
+# La performance : pas crucial, on veut pas une réponse en 30 secodnes
+# Il n'y aura pas 150 utilisaterus en mm temps
+# Territoire type, risque, retrecissement gonflement argile, risque transition (? risques physiques), stress hydrique, 
+
