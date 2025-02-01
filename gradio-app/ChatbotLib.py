@@ -24,7 +24,7 @@ def convert_chat_messages_to_converse_api(chat_messages):
     return messages
 
 
-def chat_with_model(message_history, new_text=None):
+def chat_with_model(message_history = [], new_text=None):
     session = boto3.Session()
     bedrock = session.client(service_name='bedrock-runtime') #creates a Bedrock client
     
@@ -55,4 +55,8 @@ def chat_with_model(message_history, new_text=None):
     
     message_history.append(response_message)
     
-    return
+    return message_history
+
+# messages = convert_chat_messages_to_converse_api(chat_with_model(new_text="Salut"))
+
+# print(messages[-1]["content"][0]["text"])

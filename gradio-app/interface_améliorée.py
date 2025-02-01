@@ -2,55 +2,46 @@ import gradio as gr
 import boto3
 import json
 import time
-#import "streamlit-app/chatbot_app"
-#from .streamlit_app import chatbot_lib
+from ChatbotLib import chat_with_model, convert_chat_messages_to_converse_api
+
 
 # Client AWS Bedrock
 bedrock = boto3.client("bedrock-runtime", region_name="us-west-2")
 
-#print(chatbot_lib.chat_with_model("saucisse", ""))
-
 def generate_content(prompt):
-    # Appel au modèle AWS Bedrock pour générer le contenu
-    response = bedrock.invoke_model(
-        modelId="mistral.mistral-large-2407-v1:0",  # Remplacer par notre modèle spécifique
-        body=json.dumps({"inputText": prompt})
-    )
-
-    content = response["body"].read().decode("utf-8")  # Récupérer le contenu généré
-    return content  # Retourner le contenu généré (HTML, PDF, etc.)
-
+    chat_en_cours = chat_with_model(new_text=prompt)
+    chat_messages = convert_chat_messages_to_converse_api(chat_en_cours)
+    reponse = chat_messages[-1]["content"][0]["text"]
+    
+    return reponse
+    
 def process_request_with_loading(prompt):
-    # Afficher un message de chargement avant la génération
-    yield "⏳ Génération en cours... Patientez, cela prend un instant."
-    time.sleep(2)  # Simule un temps de traitement
+    """Affiche un message de chargement avant la génération."""
+    yield "<b>⏳ Génération en cours... Patientez...</b>"
+    time.sleep(2)  
 
-    # Processus pour générer le contenu
-    result = generate_content(prompt)
-    
-    yield result  # Retourne le contenu généré
+    result = generate_content(prompt)   
 
-# Création de l'interface Gradio avec un design moderne
+    yield f"<b>📝 Résultat :</b><br>{result}"
+
+# Création de l'interface Gradio
 with gr.Blocks(theme=gr.themes.Soft()) as iface:
-    gr.Markdown("# 📝 Générateur de Document avec AWS Bedrock")
-    gr.Markdown("### Entrez votre prompt ci-dessous pour générer un document")
+    gr.Markdown("# 📝 Générateur de Texte avec AWS Bedrock")
+    gr.Markdown("### Entrez votre prompt ci-dessous pour générer du texte.")
 
     with gr.Row():
-        prompt_input = gr.Textbox(label="🔹 Entrez votre prompt", placeholder="Décrivez le document souhaité...", lines=3)
+        prompt_input = gr.Textbox(label="🔹 Entrez votre prompt", placeholder="Décrivez le texte souhaité...", lines=3)
 
     with gr.Row():
-        generate_btn = gr.Button("🚀 Générer le document")
+        generate_btn = gr.Button("🚀 Générer le texte")
     
-    output_text = gr.HTML(visible=True)  # Sortie sous forme de HTML
-    output_file = gr.File(visible=True)  # Fichier pour télécharger le document généré
-    #progress = gr.Progress()  # Barre de progression
+    output_text = gr.HTML(visible=True)  
 
-    # Ajout de la fonction avec progression
     generate_btn.click(
         fn=process_request_with_loading,
         inputs=prompt_input,
-        outputs=[output_text, output_file]
+        outputs=output_text
     )
 
-# Lancer l'interface
 iface.launch(share=True)
+# print(generate_content("Quel est le modèle de chatbot utilisé ?"))
