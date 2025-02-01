@@ -2,13 +2,9 @@ import gradio as gr
 import boto3
 import json
 import time
-#import "streamlit-app/chatbot_app"
-#from .streamlit_app import chatbot_lib
 
 # Client AWS Bedrock
 bedrock = boto3.client("bedrock-runtime", region_name="us-west-2")
-
-print(chatbot_lib.chat_with_model("saucisse", ""))
 
 def generate_content(prompt):
     # Appel au modèle AWS Bedrock pour générer le contenu
