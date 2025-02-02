@@ -15,7 +15,7 @@ def risque_collectivite(collectivite, risque):
     complet de la source de l'information, donne la moi. TOUTE LES SOURCE DE LA FORME "(source 1)" NE DOiVENT PAS ÊTRE PRECISE . Il est important de respecter 
     l'ordre des étapes que je t'ai donné mais ne reprécise pas dans ton rendu les étapes que je t'ai donné.
     """
-    print(retrieve_info_from_rag(prompt))
+    return retrieve_info_from_rag(prompt)
 
 # risque_collectivite('Avignon', 'climatique')
 
@@ -33,7 +33,7 @@ def connaissce_adaptation_risque(collectivite, risque):
     complet de la source de l'information, donne la moi. TOUTE LES SOURCE DE LA FORME "(source 1)" NE DOiVENT PAS ÊTRE PRECISE . Il est important de respecter 
     l'ordre des étapes que je t'ai donné mais ne reprécise pas dans ton rendu les étapes que je t'ai donné.
     """
-    print(retrieve_info_from_rag(prompt))
+    return retrieve_info_from_rag(prompt)
     
 # connaissce_adaptation_risque('Avignon', 'climatique')
 
@@ -51,6 +51,6 @@ def conclusion_preliminaire(collectivite, risque):
     complet de la source de l'information, donne la moi. TOUTE LES SOURCE DE LA FORME "(source 1)" NE DOiVENT PAS ÊTRE PRECISE . Il est important de respecter 
     l'ordre des étapes que je t'ai donné mais ne reprécise pas dans ton rendu les étapes que je t'ai donné.
     """
-    print(retrieve_info_from_rag(prompt))
+    return retrieve_info_from_rag(prompt)
 
 # conclusion_preliminaire('Avignon', 'climatique')

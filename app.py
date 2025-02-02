@@ -9,6 +9,8 @@ from unidecode import unidecode
 import requests
 import streamlit.components.v1 as components
 locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
+from generation_synthese import risque_collectivite, connaissce_adaptation_risque, conclusion_preliminaire
+
 
 debugpy.trace_this_thread(1)
 debugpy.debug_this_thread()
@@ -151,8 +153,12 @@ bedrock = session.client(service_name='bedrock-runtime', region_name="us-west-2"
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-chat_input = st.chat_input("Quelle collectivité locale souhaitez-vous analyser ?")
 
+tab1,tab2 = st.tabs(["Tableau de bord : Visualisation des risques", "Fiche de synthèse, les territoires face aux risques"])
+
+
+chat_input = st.chat_input("Quelle collectivité locale souhaitez-vous analyser ?")
+    
 tab1,tab2 = st.tabs(["Tableau de bord : Visualisation des risques", "Fiche de synthèse, les territoires face aux risques"])
 
 with tab1:
@@ -242,7 +248,17 @@ with tab1:
         st.write("Fin de l'analyse de la collectivité locale.")
 
 with tab2:
-    pass
+    if chat_input:
+        response = prompt_ai(chat_input)["output"]["message"]["content"][0]["toolUse"]["input"]
+        
+        
+        RisqueChoisi = st.selectbox("Risque", ["sismique","technologique","climatique" , "d'adaptation"], index=0)
+        collectivite = response["code_insee"]
+        st.write("Analyse de la commune de : ", response["nom_collectivité"])
+        
+        risque_collectivite(collectivite, RisqueChoisi)
+        connaissce_adaptation_risque(collectivite, RisqueChoisi)
+        conclusion_preliminaire(collectivite, RisqueChoisi)
 
     
     
