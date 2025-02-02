@@ -6,6 +6,7 @@ import pandas as pd
 import debugpy 
 import locale
 from unidecode import unidecode
+import requests
 locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
 
 debugpy.trace_this_thread(1)
@@ -56,7 +57,11 @@ def prompt_ai(text):
 
 @st.cache_resource
 def getInfoVille(code_insee):
-    return georisque_lib.GetInfoVille(code_insee)
+    output = requests.get(f"https://zdmq0nde71.execute-api.us-west-2.amazonaws.com/default/georisque-api-midpipe?code_insee={code_insee}").json()
+    print("saucisse")
+    
+    return output
+    #georisque_lib.GetInfoVille(code_insee)
 
 def risqueTech_to_emoji(risks):
     risk_emoji_map_technologique = {
@@ -118,6 +123,7 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 chat_input = st.chat_input("Quelle collectivité locale souhaitez-vous analyser ?")
+
 if chat_input:
     response = prompt_ai(chat_input)["output"]["message"]["content"][0]["toolUse"]["input"]
     st.write("Analyse de la collectivité locale : ", response)
