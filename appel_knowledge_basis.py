@@ -16,7 +16,7 @@ modelId = "mistral.mistral-large-2402-v1:0"
 
 
 
-def retrieve_info_from_rag(query):
+def retrieve_and_generate_info_from_rag(query):
     
     # Appel à l'API de Bedrock
     response = client.retrieve_and_generate(
@@ -104,11 +104,6 @@ def recherche_document(collectivite,risque="tous les risques"):
             "note": "note sur 10 de lisibilté du document basé le niveau de complexité du document et la présence d'image et de graphique aidant à la lisibilité.",
             "commentaire": "Commentaire sur la lisibilité des informations fournies."
             }
-        },
-        "resume_rapide": {
-            "lieu_concerne": "Nom de la commune",
-            "principaux_risques": ["risque_1","risque_n"],
-            "actions_cles": ["mesures clés de prévention et de gestion des risques"]
         }
     }
     prompt = f"""Tu es un spécialiste de l'analyse des risques naturels et technologiques. Tu as accès à une base de données contenant des informations sur les risques 
@@ -128,24 +123,5 @@ def recherche_document(collectivite,risque="tous les risques"):
     ### REPONSE:
     <json>
     """
-    sortie_kb = retrieve_info_from_rag(prompt)
+    sortie_kb = retrieve_and_generate_info_from_rag(prompt)
     print(sortie_kb)
-    
-# collectivite = 'Saint-Nazaire'
-
-# prompt = f""" A l'aide de ta base de connaissance, analyse dans tous les documents les risques encourue par {collectivite}
-# et les alentours. Si cette collectivité n'est pas présente dans ta base de connaissance, ne me donne pas d'info supplémentaire
-# et préviens moi seulement de l'absence de cette collectivité. Si tu as bien accès à ces conaissances, fait moi une liste des 3 
-# risques les plus importants par ordre décroissant. Ensuite, analyse pour chacun de ces risques, les mesures de prévention mise 
-# en place par les collectivité pour les éviter. Si et seulement si les résultats de ces mesures sont décrites dans les documents,
-# donne moi les résultats de ces mesures. Tu ne dois jamais inventer de donnée non présente dans les documents. Si tu n'a pas d'information
-# sur un risque ou une mesure, répond seulement que tu ne sais pas a propos de ce risque"""
-
-# retrieve_info_from_rag(prompt)
-
-# recherche_document('Avignon')
-
-print(retrieve_info_from_rag("Donne moi les risque à Avignon"))
-
-#tous les noms des docs sur avignon --> liste
-#for doc in liste, call rag sur le doc 

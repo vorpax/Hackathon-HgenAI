@@ -42,7 +42,7 @@ def chat_with_model(message_history = [], new_text=None):
         modelId="mistral.mistral-large-2407-v1:0",
         messages=messages,
         inferenceConfig={
-            "maxTokens": 2000,
+            "maxTokens": 8192,
             "temperature": 0,
             "topP": 0.9,
             "stopSequences": []
