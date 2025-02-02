@@ -28,7 +28,7 @@ def retrieve_info_from_rag(query):
             "generationConfiguration": {
                 "inferenceConfig": {
                     "textInferenceConfig": {
-                        "maxTokens": 500,
+                        "maxTokens": 8100,
                         "stopSequences": ["###"],
                         "temperature": 0.7,
                         "topP": 0.9
