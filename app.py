@@ -7,14 +7,43 @@ import debugpy
 import locale
 from unidecode import unidecode
 import requests
+import streamlit.components.v1 as components
 locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
 
 debugpy.trace_this_thread(1)
 debugpy.debug_this_thread()
 dotenv.load_dotenv()
 
+map_files = {
+    "retrait_gonflement_argile": "Cartes_HTML/carte_argiles.html",
+    "avalanche": "Cartes_HTML/carte_avalanches.html",
+    "risque_minier": "Cartes_HTML/carte_cavites.html",
+    "cyclone": "Cartes_HTML/carte_cyclone.html",
+    "feu_foret": "Cartes_HTML/carte_feu.html",
+    "inondation": "Cartes_HTML/carte_inondations.html",
+    "icpe": "Cartes_HTML/carte_installations.html",
+    "pollution_sols": "Cartes_HTML/carte_soldanger.html",
+    "radon": "Cartes_HTML/carte_radon.html",
+    "canalisations_matieres_dangereuses": "Cartes_HTML/carte_rescanal.html",
+    "seisme": "Cartes_HTML/carte_seisme.html",
+    "mouvement_terrain": "Cartes_HTML/carte_terrain.html"
+}
+
 StreamlitSession = st.session_state
 
+def plotCarte(map):
+    
+    #selected_maps = [map_files[risk] for risk in DictRisquesNaturels if risk in map_files and DictRisquesNaturels[risk]["present"]]
+    #selected_maps += [map_files[risk] for risk in DictRisquesTechnologiques if risk in map_files and DictRisquesTechnologiques[risk]["present"]]
+    
+    
+    # for map in map_files.keys():
+    #     selected_map = map_files[map]
+    CarteHtmlReadFile = open(map_files[map], "r").read()
+    st.write(f"Carte des risques {map} identifiés :")
+    components.html(CarteHtmlReadFile, height=400)  # Affiche uniquement la première carte trouvée
+
+st.image("./logo/LOGO4.png", width=250)
 @st.cache_resource
 def prompt_ai(text):
     tool_list = [
@@ -58,7 +87,7 @@ def prompt_ai(text):
 @st.cache_resource
 def getInfoVille(code_insee):
     output = requests.get(f"https://zdmq0nde71.execute-api.us-west-2.amazonaws.com/default/georisque-api-midpipe?code_insee={code_insee}").json()
-    print("saucisse")
+
     
     return output
     #georisque_lib.GetInfoVille(code_insee)
@@ -117,7 +146,7 @@ def create_riskTech_dataframe(risks):
 session = boto3.Session()
 bedrock = session.client(service_name='bedrock-runtime', region_name="us-west-2")
 
-st.title("EcoRisque")
+
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -186,7 +215,7 @@ if chat_input:
         # Format dates in French
         
         for col in date_columns:
-            df[col] = df[col].dt.strftime("%d %B %Y, %Hh%M").str.lower()
+            df[col] = df[col].dt.strftime("%d %B %Y").str.lower()
         
         
         return df
@@ -197,6 +226,15 @@ if chat_input:
     FormatedData = format_catnat_dataframe(DictCatastrophesNaturelles["data"])
     
     st.dataframe(FormatedData)
+    
+    carte_a_afficher = [risque for risque in DictRisquesNaturels if risque in map_files and DictRisquesNaturels[risque]["present"]]
+    carte_a_afficher += [risque for risque in DictRisquesTechnologiques if risque in map_files and DictRisquesTechnologiques[risque]["present"]]
+
+    for carte in carte_a_afficher:
+        plotCarte(carte)
+    
+    
+    
     
     st.write("Fin de l'analyse de la collectivité locale.")
 
