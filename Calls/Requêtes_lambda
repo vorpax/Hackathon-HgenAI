@@ -1,0 +1,69 @@
+import boto3
+import pandas as pd
+import json
+import os
+
+# Initialisation des clients AWS
+s3_client = boto3.client("s3")
+bedrock_client = boto3.client("bedrock-runtime", region_name="us-west-2")
+
+BUCKET_NAME = "dev-aws-bucket-jesaispas"  #Mon bucket S3
+
+def lire_csv_s3(nom_fichier):
+    """Lit un fichier CSV depuis S3 et retourne un DataFrame"""
+    obj = s3_client.get_object(Bucket=BUCKET_NAME, Key=nom_fichier)
+    return pd.read_csv(obj["Body"])
+
+def lire_json_s3(nom_fichier):
+    """Lit un fichier JSON depuis S3 et retourne un dictionnaire"""
+    obj = s3_client.get_object(Bucket=BUCKET_NAME, Key=nom_fichier)
+    return json.loads(obj["Body"].read().decode("utf-8"))
+
+def appeler_bedrock(prompt):
+    """Envoie un prompt à AWS Bedrock et récupère la réponse"""
+    response = bedrock_client.invoke_model(
+        modelId="anthropic.claude-v2",  # Modèle IA de Bedrock (à adapter)
+        body=json.dumps({"prompt": prompt, "max_tokens": 500})
+    )
+    return json.loads(response["body"].read().decode("utf-8"))["completion"]
+
+def lambda_handler(event, context):
+    """
+    Fonction Lambda principale qui :
+    - Récupère les fichiers CSV/JSON depuis S3
+    - Filtre les données selon une requête utilisateur
+    - Envoie les données filtrées à AWS Bedrock
+    """
+    try:
+        # 📌 Exemple de requête : {"fichier": "data.csv", "colonne": "nom", "valeur": "Alice"}
+        body = json.loads(event["body"])
+        fichier = body["fichier"]
+        
+        # 📌 Lecture du fichier CSV ou JSON
+        if fichier.endswith(".csv"):
+            df = lire_csv_s3(fichier)
+            colonne = body.get("colonne")
+            valeur = body.get("valeur")
+            
+            if colonne and valeur:
+                df = df[df[colonne] == valeur]  # Filtrer les données
+
+            donnees = df.to_dict(orient="records")  # Conversion en liste de dictionnaires
+        
+        elif fichier.endswith(".json"):
+            donnees = lire_json_s3(fichier)
+
+        else:
+            return {"statusCode": 400, "body": json.dumps({"message": "Format de fichier non pris en charge"})}
+
+        # 🔹 Génération du prompt pour Bedrock
+        prompt = f"Voici les données demandées : {json.dumps(donnees, indent=2)}."
+        reponse_bedrock = appeler_bedrock(prompt)
+
+        return {
+            "statusCode": 200,
+            "body": json.dumps({"reponse_bedrock": reponse_bedrock})
+        }
+
+    except Exception as e:
+        return {"statusCode": 500, "body": json.dumps({"error": str(e)})}
