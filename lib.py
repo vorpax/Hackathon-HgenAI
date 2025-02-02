@@ -28,17 +28,8 @@ def ListeRisques(code_insee):
 
 def GetInfoVille(code_insee):
     InfoVille = dict()
-    InfoVille["RapportRisqueJson"] = GetRapportRisquesJSON(code_insee)
-    InfoVille["DICRIM"] = GetDICRIM(code_insee)
-    InfoVille["ListeRisques"] = ListeRisques(code_insee)
-    InfoVille["CatastropheNaturelles"] = GetCatastropheNaturelles(code_insee, 10, "46.603354,1.888334")
+    InfoVille["RapportRisqueJson"] = GetRapportRisquesJSON(code_insee).to_dict()
+    InfoVille["DICRIM"] = GetDICRIM(code_insee).to_dict()
+    InfoVille["ListeRisques"] = ListeRisques(code_insee).to_dict()
+    InfoVille["CatastropheNaturelles"] = GetCatastropheNaturelles(code_insee, 10, "46.603354,1.888334").to_dict()
     return InfoVille
-    
-    
-
-
-
-
-
-
-

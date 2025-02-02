@@ -123,22 +123,18 @@ if chat_input:
     st.write("Analyse de la collectivité locale : ", response)
     response["code_insee"]
     
-    
     VilleInfo = getInfoVille(response["code_insee"])
     st.write(VilleInfo)
     
-    
-
     ListeRisquesNaturels = []
-    ListeTestRisques=VilleInfo['RapportRisqueJson'].risques_naturels
-    print(ListeTestRisques)
-    DictRisquesNaturels= VilleInfo['RapportRisqueJson'].risques_naturels.to_dict()
-    for risqueKey in VilleInfo['RapportRisqueJson'].risques_naturels.attribute_map.keys():
+    
+    DictRisquesNaturels= VilleInfo['RapportRisqueJson']["risques_naturels"]
+    for risqueKey in VilleInfo['RapportRisqueJson']['risques_naturels'].keys():
         ListeRisquesNaturels.append(DictRisquesNaturels[risqueKey])
     
     ListeRisquesTechnologiques = []
-    DictRisquesTechnologiques= VilleInfo['RapportRisqueJson'].risques_technologiques.to_dict()
-    for risqueKey in VilleInfo['RapportRisqueJson'].risques_technologiques.attribute_map.keys():
+    DictRisquesTechnologiques= VilleInfo['RapportRisqueJson']["risques_technologiques"]
+    for risqueKey in VilleInfo['RapportRisqueJson']["risques_technologiques"].keys():
         ListeRisquesNaturels.append(DictRisquesTechnologiques[risqueKey])
     
     # ParsedDate = pd.to_datetime(row['created_at'])
@@ -188,14 +184,13 @@ if chat_input:
         
         
         return df
-    DictCatastrophesNaturelles= VilleInfo['CatastropheNaturelles'].to_dict()
+    DictCatastrophesNaturelles= VilleInfo['CatastropheNaturelles']
+    
     # Usage:
     st.caption("Liste des 10 dernières catastrophes naturelles")
     FormatedData = format_catnat_dataframe(DictCatastrophesNaturelles["data"])
     
-    
     st.dataframe(FormatedData)
-    
     
     st.write("Fin de l'analyse de la collectivité locale.")
 
