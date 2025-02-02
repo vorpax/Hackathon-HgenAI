@@ -12,12 +12,12 @@ def risque_collectivite(collectivite, risque):
     
     Il est tres important que tu ne donne aucune information qui ne soit pas explicitement écrite, ou logiquement déduite des ressource que tu
     possède. Si tu ne possède pas une information, soit tu n'en parle pas, soit tu précise l'absence d'information à ce sujet. Si tu as accès au nom
-    complet de la source de l'information, donne la moi. Si tu n'as qu'un numéro ne me la donne pas. Il est important de respecter l'ordre des étapes
-    que je t'ai donné mais ne reprécise pas dans ton rendu les étapes que je t'ai donné.
+    complet de la source de l'information, donne la moi. Si tu n'as qu'un numéro (de la forme source 1) NE ME LA DONNE PAS . Il est important de respecter 
+    l'ordre des étapes que je t'ai donné mais ne reprécise pas dans ton rendu les étapes que je t'ai donné.
     """
     print(retrieve_info_from_rag(prompt))
 
-risque_collectivite('Avignon', 'climatique')
+# risque_collectivite('Avignon', 'climatique')
 
 def connaissce_adaptation_risque(collectivite, risque):
     prompt = f""" 
@@ -25,6 +25,21 @@ def connaissce_adaptation_risque(collectivite, risque):
     pour faire face au risque {risque}.
     Tu dois découper ta sortie pour chaque sous risque lié au risque {risque}. A chaque fois, tu dois dire à quel point {collectivite} a bien analysé le
     risque qu'il encourais en essayant de citer au mieux les sources de ta base de connaissance, tu dois ensuite montrer les actions mises en place par {collectivite}
-    pour faire face à ce risque en essayant de citer au mieux les sources de ta base de connaissance. Finalement essaye d'évaluer 
+    pour faire face à ce risque en essayant de citer au mieux les sources de ta base de connaissance. Finalement essaye d'évaluer la pertinence de ces actions.
     
+    
+    Il est tres important que tu ne donne aucune information qui ne soit pas explicitement écrite, ou logiquement déduite des ressource que tu
+    possède. Si tu ne possède pas une information, soit tu n'en parle pas, soit tu précise l'absence d'information à ce sujet. Si tu as accès au nom
+    complet de la source de l'information, donne la moi. Si tu n'as qu'un numéro (de la forme source 1) NE ME LA DONNE PAS . Il est important de respecter 
+    l'ordre des étapes que je t'ai donné mais ne reprécise pas dans ton rendu les étapes que je t'ai donné.
     """
+    print(retrieve_info_from_rag(prompt))
+    
+connaissce_adaptation_risque('Avignon', 'climatique')
+
+def conclusion_preliminaire(collectivite, risque):
+    prompt = f""" 
+    A l'aide de ta base de connaissance, analyse dans tous les documents les risques mesures de prévention mise en place par {collectivite}
+    pour faire face au risque {risque}.
+    
+    Etape 1 : 
