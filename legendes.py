@@ -75,9 +75,10 @@ def plotCarte(map, ville):
     CarteHtmlReadFile = open(map_files[map], "r").read()
     col1, col2 = st.columns([3, 1])  # Largeur de 3 pour la carte, 1 pour la légende
     with col1:
-        components.html(CarteHtmlReadFile, height=400)
+        components.html(CarteHtmlReadFile, height=350)  # Réduction de la hauteur
     with col2:
         st.write(f"**Carte des risques {map} identifiés**")
+        st.markdown("<div style='font-size: 12px;'>Source: Données officielles</div>", unsafe_allow_html=True)
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
