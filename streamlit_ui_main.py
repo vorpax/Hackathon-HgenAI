@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 import lib as georisque_lib
 import pandas as pd
 import locale
+from appel_knowledge_basis import retrieve_info_from_rag
 from unidecode import unidecode
 import debugpy
 import os
@@ -91,6 +92,9 @@ if "messages" not in st.session_state:
 chat_input = st.chat_input("Quelle collectivité locale souhaitez-vous analyser ?")
 if chat_input:
     response = prompt_ai(chat_input)["output"]["message"]["content"][0]["toolUse"]["input"]
+    #Ajout réponse dans historique
+    st.session_state.messages.append({"content": [{"text": f"Analyse de la collectivité {response['nom_collectivité']}"}], "role": "assistant"})
+
     st.write("Analyse de la collectivité locale : ", response["nom_collectivité"])
     code_insee = response["code_insee"]
     nom_ville = response["nom_collectivité"]
@@ -105,6 +109,7 @@ if chat_input:
     
     st.table(DictRisquesNaturels)
     st.table(DictRisquesTechnologiques)
+    
     carte_a_afficher = [risque for risque in DictRisquesNaturels if risque in map_files and DictRisquesNaturels[risque]["present"]]
     carte_a_afficher += [risque for risque in DictRisquesTechnologiques if risque in map_files and DictRisquesTechnologiques[risque]["present"]]
 

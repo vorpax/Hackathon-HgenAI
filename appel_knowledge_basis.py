@@ -49,15 +49,15 @@ def retrieve_info_from_rag(query):
     print(response["output"]["text"])#["retrievalResults"][1]["content"]["text"])
 
 
-collectivite = 'Saint-Nazaire'
+# collectivite = 'Saint-Nazaire'
 
-prompt = f""" A l'aide de ta base de connaissance, analyse dans tous les documents les risques encourue par {collectivite}
-et les alentours. Si cette collectivité n'est pas présente dans ta base de connaissance, ne me donne pas d'info supplémentaire
-et préviens moi seulement de l'absence de cette collectivité. Si tu as bien accès à ces conaissances, fait moi une liste des 3 
-risques les plus importants par ordre décroissant. Ensuite, analyse pour chacun de ces risques, les mesures de prévention mise 
-en place par les collectivité pour les éviter. Si et seulement si les résultats de ces mesures sont décrites dans les documents,
-donne moi les résultats de ces mesures. Tu ne dois jamais inventer de donnée non présente dans les documents. Si tu n'a pas d'information
-sur un risque ou une mesure, répond seulement que tu ne sais pas a propos de ce risque"""
+# prompt = f""" A l'aide de ta base de connaissance, analyse dans tous les documents les risques encourue par {collectivite}
+# et les alentours. Si cette collectivité n'est pas présente dans ta base de connaissance, ne me donne pas d'info supplémentaire
+# et préviens moi seulement de l'absence de cette collectivité. Si tu as bien accès à ces conaissances, fait moi une liste des 3 
+# risques les plus importants par ordre décroissant. Ensuite, analyse pour chacun de ces risques, les mesures de prévention mise 
+# en place par les collectivité pour les éviter. Si et seulement si les résultats de ces mesures sont décrites dans les documents,
+# donne moi les résultats de ces mesures. Tu ne dois jamais inventer de donnée non présente dans les documents. Si tu n'a pas d'information
+# sur un risque ou une mesure, répond seulement que tu ne sais pas a propos de ce risque"""
 
-retrieve_info_from_rag(prompt)
+# retrieve_info_from_rag(prompt)
 
