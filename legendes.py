@@ -11,7 +11,6 @@ from appel_knowledge_basis import retrieve_info_from_rag
 from unidecode import unidecode
 import debugpy
 import os
-from PIL import Image
 
 # Initialize the bedrock client
 bedrock = boto3.client('bedrock-runtime', region_name='us-west-2')
@@ -23,8 +22,6 @@ StreamlitSession = st.session_state
 
 # Chargement du logo
 st.image("./logo/LOGO4.png", width=250)
-
-# Titre
 
 @st.cache_resource
 def prompt_ai(text):
@@ -59,7 +56,6 @@ def prompt_ai(text):
 def getInfoVille(code_insee):
     return georisque_lib.GetInfoVille(code_insee)
 
-# Association des risques aux cartes correspondantes
 map_files = {
     "retrait_gonflement_argile": "Cartes_HTML/carte_argiles.html",
     "avalanche": "Cartes_HTML/carte_avalanches.html",
@@ -75,21 +71,13 @@ map_files = {
     "mouvement_terrain": "Cartes_HTML/carte_terrain.html"
 }
 
-def load_legend_image(risk_name):
-    legend_path = f"Légendes/{risk_name}/risques.png"
-    if os.path.exists(legend_path):
-        return Image.open(legend_path)
-    return None
-
 def plotCarte(map, ville):
     CarteHtmlReadFile = open(map_files[map], "r").read()
-    st.write(f"Carte des risques {map} identifiés :")
-    components.html(CarteHtmlReadFile, height=400)
-    
-    # Affichage de la légende correspondante
-    legend_image = load_legend_image(map)
-    if legend_image:
-        st.image(legend_image, caption=f"Légende pour {map}")
+    col1, col2 = st.columns([3, 1])  # Largeur de 3 pour la carte, 1 pour la légende
+    with col1:
+        components.html(CarteHtmlReadFile, height=400)
+    with col2:
+        st.write(f"**Carte des risques {map} identifiés**")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -98,22 +86,23 @@ chat_input = st.chat_input("Quelle collectivité locale souhaitez-vous analyser 
 if chat_input:
     response = prompt_ai(chat_input)["output"]["message"]["content"][0]["toolUse"]["input"]
     st.session_state.messages.append({"content": [{"text": f"Analyse de la collectivité {response['nom_collectivité']}"}], "role": "assistant"})
-
+    
     st.write("Analyse de la collectivité locale : ", response["nom_collectivité"])
     code_insee = response["code_insee"]
     nom_ville = response["nom_collectivité"]
     VilleInfo = getInfoVille(code_insee)
+    st.write(VilleInfo)
     
-    DictRisquesNaturels = VilleInfo['RapportRisqueJson'].risques_naturels.to_dict()
-    DictRisquesTechnologiques = VilleInfo['RapportRisqueJson'].risques_technologiques.to_dict()
+    DictRisquesNaturels = VilleInfo['RapportRisqueJson']["risques_naturels"]
+    DictRisquesTechnologiques = VilleInfo['RapportRisqueJson']["risques_naturels"]
     
     st.table(DictRisquesNaturels)
     st.table(DictRisquesTechnologiques)
     
     carte_a_afficher = [risque for risque in DictRisquesNaturels if risque in map_files and DictRisquesNaturels[risque]["present"]]
     carte_a_afficher += [risque for risque in DictRisquesTechnologiques if risque in map_files and DictRisquesTechnologiques[risque]["present"]]
-
+    
     for carte in carte_a_afficher:
         plotCarte(carte, nom_ville)
-        
+    
     st.write("Fin de l'analyse de la collectivité locale.")
