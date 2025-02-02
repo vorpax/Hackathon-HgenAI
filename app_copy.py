@@ -104,8 +104,8 @@ if chat_input:
     nom_ville = response["nom_collectivité"]
     VilleInfo = getInfoVille(code_insee)
     
-    DictRisquesNaturels = VilleInfo['RapportRisqueJson'].risques_naturels.to_dict()
-    DictRisquesTechnologiques = VilleInfo['RapportRisqueJson'].risques_technologiques.to_dict()
+    DictRisquesNaturels = VilleInfo['RapportRisqueJson']["risques_naturels"]
+    DictRisquesTechnologiques = VilleInfo['RapportRisqueJson']["risques_naturels"]
     
     st.table(DictRisquesNaturels)
     st.table(DictRisquesTechnologiques)

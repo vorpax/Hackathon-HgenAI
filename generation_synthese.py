@@ -25,6 +25,6 @@ def connaissce_adaptation_risque(collectivite, risque):
     pour faire face au risque {risque}.
     Tu dois découper ta sortie pour chaque sous risque lié au risque {risque}. A chaque fois, tu dois dire à quel point {collectivite} a bien analysé le
     risque qu'il encourais en essayant de citer au mieux les sources de ta base de connaissance, tu dois ensuite montrer les actions mises en place par {collectivite}
-    pour faire face à ce risque en essayant de citer au mieux les sources de ta base de connaissance. 
+    pour faire face à ce risque en essayant de citer au mieux les sources de ta base de connaissance. Finalement essaye d'évaluer 
     
     """
