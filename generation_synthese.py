@@ -12,7 +12,7 @@ def risque_collectivite(collectivite, risque):
     
     Il est tres important que tu ne donne aucune information qui ne soit pas explicitement écrite, ou logiquement déduite des ressource que tu
     possède. Si tu ne possède pas une information, soit tu n'en parle pas, soit tu précise l'absence d'information à ce sujet. Si tu as accès au nom
-    complet de la source de l'information, donne la moi. Si tu n'as qu'un numéro (de la forme source 1) NE ME LA DONNE PAS . Il est important de respecter 
+    complet de la source de l'information, donne la moi. TOUTE LES SOURCE DE LA FORME "(source 1)" NE DOiVENT PAS ÊTRE PRECISE . Il est important de respecter 
     l'ordre des étapes que je t'ai donné mais ne reprécise pas dans ton rendu les étapes que je t'ai donné.
     """
     print(retrieve_info_from_rag(prompt))
@@ -30,16 +30,27 @@ def connaissce_adaptation_risque(collectivite, risque):
     
     Il est tres important que tu ne donne aucune information qui ne soit pas explicitement écrite, ou logiquement déduite des ressource que tu
     possède. Si tu ne possède pas une information, soit tu n'en parle pas, soit tu précise l'absence d'information à ce sujet. Si tu as accès au nom
-    complet de la source de l'information, donne la moi. Si tu n'as qu'un numéro (de la forme source 1) NE ME LA DONNE PAS . Il est important de respecter 
+    complet de la source de l'information, donne la moi. TOUTE LES SOURCE DE LA FORME "(source 1)" NE DOiVENT PAS ÊTRE PRECISE . Il est important de respecter 
     l'ordre des étapes que je t'ai donné mais ne reprécise pas dans ton rendu les étapes que je t'ai donné.
     """
     print(retrieve_info_from_rag(prompt))
     
-connaissce_adaptation_risque('Avignon', 'climatique')
+# connaissce_adaptation_risque('Avignon', 'climatique')
 
 def conclusion_preliminaire(collectivite, risque):
     prompt = f""" 
     A l'aide de ta base de connaissance, analyse dans tous les documents les risques mesures de prévention mise en place par {collectivite}
     pour faire face au risque {risque}.
     
-    Etape 1 : 
+    Etape 1 : Reprécise les risques encourus par {collectivite} et les alentours pour le risque {risque} et à quel point ils sont présent.
+    Etape 2 : Reprécise si le risques est bien identifié par la collectivité
+    Etape 3 : Reprécise si la collectivité à bien menée ou prévue de mener des actions d'adaptation
+    
+    Il est tres important que tu ne donne aucune information qui ne soit pas explicitement écrite, ou logiquement déduite des ressource que tu
+    possède. Si tu ne possède pas une information, soit tu n'en parle pas, soit tu précise l'absence d'information à ce sujet. Si tu as accès au nom
+    complet de la source de l'information, donne la moi. TOUTE LES SOURCE DE LA FORME "(source 1)" NE DOiVENT PAS ÊTRE PRECISE . Il est important de respecter 
+    l'ordre des étapes que je t'ai donné mais ne reprécise pas dans ton rendu les étapes que je t'ai donné.
+    """
+    print(retrieve_info_from_rag(prompt))
+
+# conclusion_preliminaire('Avignon', 'climatique')
