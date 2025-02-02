@@ -153,90 +153,96 @@ if "messages" not in st.session_state:
 
 chat_input = st.chat_input("Quelle collectivité locale souhaitez-vous analyser ?")
 
-if chat_input:
-    response = prompt_ai(chat_input)["output"]["message"]["content"][0]["toolUse"]["input"]
-    st.write("Analyse de la collectivité locale : ", response)
-    response["code_insee"]
-    
-    VilleInfo = getInfoVille(response["code_insee"])
-    st.write(VilleInfo)
-    
-    ListeRisquesNaturels = []
-    
-    DictRisquesNaturels= VilleInfo['RapportRisqueJson']["risques_naturels"]
-    for risqueKey in VilleInfo['RapportRisqueJson']['risques_naturels'].keys():
-        ListeRisquesNaturels.append(DictRisquesNaturels[risqueKey])
-    
-    ListeRisquesTechnologiques = []
-    DictRisquesTechnologiques= VilleInfo['RapportRisqueJson']["risques_technologiques"]
-    for risqueKey in VilleInfo['RapportRisqueJson']["risques_technologiques"].keys():
-        ListeRisquesNaturels.append(DictRisquesTechnologiques[risqueKey])
-    
-    # ParsedDate = pd.to_datetime(row['created_at'])
-    # locale.setlocale(locale.LC_TIME, 'fr_FR.UTF-8')
-    # ParsedDate = ParsedDate.strftime("%d %B %Y, %Hh%M").lower()
-    # st.caption(ParsedDate) 
-    
-    
-    st.table(create_riskNat_dataframe(DictRisquesNaturels))
-    st.table(create_riskTech_dataframe(DictRisquesTechnologiques))
-    
-   
-    
-    def format_catnat_dataframe(dict_risques_list):
-        # Create DataFrame from list of dictionaries
-        df = pd.DataFrame(dict_risques_list)
-        
-        # Select and rename columns
-        df = df[[
-            'libelle_risque_jo',
-            'date_debut_evt',
-            'date_fin_evt',
-            'date_publication_jo',
-            'code_national_catnat'
-        ]].rename(columns={
-            'libelle_risque_jo': 'Risque',
-            'date_debut_evt': 'Date Événement',
-            'date_fin_evt': 'Date Fin Événement',
-            'date_publication_jo': 'Date Publication JO',
-            'code_national_catnat': 'Code National'
-        })
-        
-        
-        # Convert dates
-        date_columns = ['Date Événement', 'Date Fin Événement', 'Date Publication JO']
-        
-        for col in date_columns:
-            df[col] = pd.to_datetime(df[col])
-        
-        # Sort by most recent event
-        df = df.sort_values('Date Événement', ascending=False)
-        
-        # Format dates in French
-        
-        for col in date_columns:
-            df[col] = df[col].dt.strftime("%d %B %Y").str.lower()
-        
-        
-        return df
-    DictCatastrophesNaturelles= VilleInfo['CatastropheNaturelles']
-    
-    # Usage:
-    st.caption("Liste des 10 dernières catastrophes naturelles")
-    FormatedData = format_catnat_dataframe(DictCatastrophesNaturelles["data"])
-    
-    st.dataframe(FormatedData)
-    
-    carte_a_afficher = [risque for risque in DictRisquesNaturels if risque in map_files and DictRisquesNaturels[risque]["present"]]
-    carte_a_afficher += [risque for risque in DictRisquesTechnologiques if risque in map_files and DictRisquesTechnologiques[risque]["present"]]
+tab1,tab2 = st.tabs(["Tableau de bord : Visualisation des risques", "Fiche de synthèse, les territoires face aux risques"])
 
-    for carte in carte_a_afficher:
-        plotCarte(carte)
+with tab1:
+    if chat_input:
+        response = prompt_ai(chat_input)["output"]["message"]["content"][0]["toolUse"]["input"]
+        st.write("Analyse de la collectivité locale : ", response)
+        response["code_insee"]
+        
+        VilleInfo = getInfoVille(response["code_insee"])
+        st.write(VilleInfo)
+        
+        ListeRisquesNaturels = []
+        
+        DictRisquesNaturels= VilleInfo['RapportRisqueJson']["risques_naturels"]
+        for risqueKey in VilleInfo['RapportRisqueJson']['risques_naturels'].keys():
+            ListeRisquesNaturels.append(DictRisquesNaturels[risqueKey])
+        
+        ListeRisquesTechnologiques = []
+        DictRisquesTechnologiques= VilleInfo['RapportRisqueJson']["risques_technologiques"]
+        for risqueKey in VilleInfo['RapportRisqueJson']["risques_technologiques"].keys():
+            ListeRisquesNaturels.append(DictRisquesTechnologiques[risqueKey])
+        
+        # ParsedDate = pd.to_datetime(row['created_at'])
+        # locale.setlocale(locale.LC_TIME, 'fr_FR.UTF-8')
+        # ParsedDate = ParsedDate.strftime("%d %B %Y, %Hh%M").lower()
+        # st.caption(ParsedDate) 
+        
+        
+        st.table(create_riskNat_dataframe(DictRisquesNaturels))
+        st.table(create_riskTech_dataframe(DictRisquesTechnologiques))
+        
     
-    
-    
-    
-    st.write("Fin de l'analyse de la collectivité locale.")
+        
+        def format_catnat_dataframe(dict_risques_list):
+            # Create DataFrame from list of dictionaries
+            df = pd.DataFrame(dict_risques_list)
+            
+            # Select and rename columns
+            df = df[[
+                'libelle_risque_jo',
+                'date_debut_evt',
+                'date_fin_evt',
+                'date_publication_jo',
+                'code_national_catnat'
+            ]].rename(columns={
+                'libelle_risque_jo': 'Risque',
+                'date_debut_evt': 'Date Événement',
+                'date_fin_evt': 'Date Fin Événement',
+                'date_publication_jo': 'Date Publication JO',
+                'code_national_catnat': 'Code National'
+            })
+            
+            
+            # Convert dates
+            date_columns = ['Date Événement', 'Date Fin Événement', 'Date Publication JO']
+            
+            for col in date_columns:
+                df[col] = pd.to_datetime(df[col])
+            
+            # Sort by most recent event
+            df = df.sort_values('Date Événement', ascending=False)
+            
+            # Format dates in French
+            
+            for col in date_columns:
+                df[col] = df[col].dt.strftime("%d %B %Y").str.lower()
+            
+            
+            return df
+        DictCatastrophesNaturelles= VilleInfo['CatastropheNaturelles']
+        
+        # Usage:
+        st.caption("Liste des 10 dernières catastrophes naturelles")
+        FormatedData = format_catnat_dataframe(DictCatastrophesNaturelles["data"])
+        
+        st.dataframe(FormatedData)
+        
+        carte_a_afficher = [risque for risque in DictRisquesNaturels if risque in map_files and DictRisquesNaturels[risque]["present"]]
+        carte_a_afficher += [risque for risque in DictRisquesTechnologiques if risque in map_files and DictRisquesTechnologiques[risque]["present"]]
+
+        for carte in carte_a_afficher:
+            plotCarte(carte)
+        
+        
+        
+        
+        st.write("Fin de l'analyse de la collectivité locale.")
+
+with tab2:
+    pass
 
     
     
