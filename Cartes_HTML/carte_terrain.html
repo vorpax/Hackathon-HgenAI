@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+
 <html>
 <head>
-    <title>BRGM Geological Map</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css">
-    <style>
+<title>BRGM Geological Map</title>
+<link href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" rel="stylesheet"/>
+<style>
         .map {
             height: 600px;
             width: 100%;
@@ -11,10 +12,9 @@
     </style>
 </head>
 <body>
-    <div id="map" class="map"></div>
-
-    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
-    <script>
+<div class="map" id="map"></div>
+<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+<script>
         // Map initialization
         const map = new ol.Map({
             target: 'map',
@@ -65,4 +65,3 @@
     </script>
 </body>
 </html>
-
