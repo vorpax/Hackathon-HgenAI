@@ -1,3 +1,4 @@
 .env
 .vscode/
 .gradio/certificate.pem
+__pycache__/lib.cpython-313.pyc
