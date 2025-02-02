@@ -21,9 +21,9 @@ Nous proposons de développer un portail interactif combiné à un agent convers
 
 
 ### Utilisation
-
 L'utilisateur fait sa requête à chatbot_lib. Ce dernier lui affiche la synthèse des risques encourus pour la communauté locale demandée avec une visualisation de cesrisques. Il affiche également, dans un autre onglet, pour le risque et la communauté locale demandés, les informations pertinentes.
 
 ### Architecture du projet
 
+![image](https://github.com/user-attachments/assets/9d573c46-cbfc-4dae-92ee-ffb1e6e9fecd)
 
