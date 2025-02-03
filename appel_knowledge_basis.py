@@ -43,10 +43,10 @@ def retrieve_info_from_rag(query):
     sessionConfiguration={
         "kmsKeyArn": kms_key_arn
     },
-)
+    )
 
     # Afficher les résultats
-    print(response["output"]["text"])#["retrievalResults"][1]["content"]["text"])
+    return response["output"]["text"] #["retrievalResults"][1]["content"]["text"])
 
 
 # collectivite = 'Saint-Nazaire'

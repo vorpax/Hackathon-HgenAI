@@ -154,14 +154,13 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 
-tab1,tab2 = st.tabs(["Tableau de bord : Visualisation des risques", "Fiche de synthèse, les territoires face aux risques"])
-
-
-chat_input = st.chat_input("Quelle collectivité locale souhaitez-vous analyser ?")
     
 tab1,tab2 = st.tabs(["Tableau de bord : Visualisation des risques", "Fiche de synthèse, les territoires face aux risques"])
 
 with tab1:
+    select_tab=1
+    chat_input = st.chat_input("Quelle collectivité locale souhaitez-vous analyser ?",key=select_tab)
+
     if chat_input:
         response = prompt_ai(chat_input)["output"]["message"]["content"][0]["toolUse"]["input"]
         st.write("Analyse de la collectivité locale : ", response)
@@ -248,17 +247,38 @@ with tab1:
         st.write("Fin de l'analyse de la collectivité locale.")
 
 with tab2:
+    
+    select_tab=2
+    chat_input = st.chat_input("Quelle collectivité locale souhaitez-vous analyser ?",key=select_tab)
+
+    
     if chat_input:
         response = prompt_ai(chat_input)["output"]["message"]["content"][0]["toolUse"]["input"]
         
         
         RisqueChoisi = st.selectbox("Risque", ["sismique","technologique","climatique" , "d'adaptation"], index=0)
-        collectivite = response["code_insee"]
-        st.write("Analyse de la commune de : ", response["nom_collectivité"])
+        st.write(RisqueChoisi)
         
-        risque_collectivite(collectivite, RisqueChoisi)
-        connaissce_adaptation_risque(collectivite, RisqueChoisi)
-        conclusion_preliminaire(collectivite, RisqueChoisi)
+        if st.button("Analyser", key="tab2"):
+            
+            
+            collectivite = response["code_insee"]
+            
+            
+            st.write("Analyse de la commune de : ", response["nom_collectivité"])
+            
+            risqueCollectivite = risque_collectivite(collectivite, RisqueChoisi)
+            st.write(risqueCollectivite)
+            #st.divider()
+            
+            
+            connaissanceRisque = connaissce_adaptation_risque(collectivite, RisqueChoisi)
+            st.write(connaissanceRisque)
+            
+            #st.divider()
+            
+            ConclusionPreli =     conclusion_preliminaire(collectivite, RisqueChoisi)
+            st.write(ConclusionPreli)
 
     
     
