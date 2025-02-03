@@ -17,7 +17,7 @@ def risque_collectivite(collectivite, risque):
     """
     return retrieve_info_from_rag(prompt)
 
-# risque_collectivite('Avignon', 'climatique')
+risque_collectivite('Avignon', 'climatique')
 
 def connaissce_adaptation_risque(collectivite, risque):
     prompt = f""" 

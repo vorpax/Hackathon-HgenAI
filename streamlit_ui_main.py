@@ -99,7 +99,7 @@ if chat_input:
     code_insee = response["code_insee"]
     nom_ville = response["nom_collectivité"]
     VilleInfo = getInfoVille(code_insee)
-    st.write(VilleInfo)
+
     
     DictRisquesNaturels = VilleInfo['RapportRisqueJson']["risques_naturels"]
     DictRisquesTechnologiques = VilleInfo['RapportRisqueJson']["risques_naturels"]
